@@ -42,30 +42,30 @@ def init_db():
 
         # Insert Sample Food Items
         food_items = [
-            ('Paneer Butter Masala', 'Rich paneer curry in butter sauce', 250.00, 4.5, '/static/images/paneer.jpg', 20),
-            ('Chicken Biryani', 'Spicy biryani with chicken', 300.00, 4.8, '/static/images/biryani.jpg', 15),
-            ('Masala Dosa', 'Crispy dosa with spiced potato filling', 150.00, 4.6, '/static/images/dosa.jpg', 30),
-            ('Rajma Chawal', 'Kidney beans curry with rice', 180.00, 4.3, '/static/images/rajma.jpg', 25),
-            ('Chole Bhature', 'Spicy chickpeas with fried bread', 200.00, 4.7, '/static/images/chole.jpg', 18),
-            ('Pav Bhaji', 'Spicy mashed vegetables with bread rolls', 170.00, 4.5, '/static/images/pav_bhaji.jpg', 22),
-            ('Butter Chicken', 'Creamy chicken curry with spices', 320.00, 4.9, '/static/images/butter_chicken.jpg', 12),
-            ('Dal Makhani', 'Slow-cooked black lentils in butter', 220.00, 4.4, '/static/images/dal_makhani.jpg', 20),
-            ('Hyderabadi Dum Biryani', 'Fragrant rice with marinated meat', 350.00, 4.9, '/static/images/hyderabadi_biryani.jpg', 14),
-            ('Veg Thali', 'Assorted Indian vegetarian meal', 280.00, 4.6, '/static/images/veg_thali.jpg', 19),
-            ('Aloo Paratha', 'Stuffed flatbread with spiced potatoes', 120.00, 4.5, '/static/images/aloo_paratha.jpg', 25),
-            ('Tandoori Chicken', 'Char-grilled marinated chicken', 340.00, 4.7, '/static/images/tandoori.jpg', 10),
-            ('Gulab Jamun', 'Soft milk dumplings in sugar syrup', 90.00, 4.9, '/static/images/gulab_jamun.jpg', 30),
-            ('Samosa', 'Crispy pastry filled with spiced potatoes', 50.00, 4.6, '/static/images/samosa.jpg', 40),
-            ('Rasgulla', 'Spongy dessert soaked in syrup', 100.00, 4.8, '/static/images/rasgulla.jpg', 35),
-            ('Fish Curry', 'Spiced fish cooked in a tangy sauce', 330.00, 4.7, '/static/images/fish_curry.jpg', 12),
-            ('Mango Lassi', 'Refreshing mango yogurt drink', 130.00, 4.8, '/static/images/mango_lassi.jpg', 25),
-            ('Chocolate Cake', 'Rich and moist chocolate cake', 250.00, 4.9, '/static/images/choco_cake.jpg', 15),
-            ('Pizza Margherita', 'Classic cheese and tomato pizza', 400.00, 4.8, '/static/images/pizza.jpg', 12),
-            ('Burger', 'Grilled burger with crispy fries', 230.00, 4.7, '/static/images/burger.jpg', 20),
-            ('Pasta Alfredo', 'Creamy white sauce pasta', 290.00, 4.5, '/static/images/pasta.jpg', 18),
-            ('Caesar Salad', 'Fresh greens with Caesar dressing', 180.00, 4.3, '/static/images/salad.jpg', 25),
-            ('Momos', 'Steamed dumplings with spicy sauce', 120.00, 4.6, '/static/images/momos.jpg', 28),
-            ('Falooda', 'Indian dessert with ice cream & vermicelli', 160.00, 4.8, '/static/images/falooda.jpg', 22),
+            ('Paneer Butter Masala', 'Rich paneer curry in butter sauce', 250.00, 4.5, 'https://i0.wp.com/www.shanazrafiq.com/wp-content/uploads/2012/10/1-DSC_0040.jpg?fit=1600%2C1064&ssl=1', 20),
+            ('Chicken Biryani', 'Spicy biryani with chicken', 300.00, 4.8, 'https://recipeland.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MjAyOTAsInB1ciI6ImJsb2JfaWQifX0=--d9e7f5ff576538b221259a6dbcfe85104a6f0201/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fbGltaXQiOls4NjAsbnVsbF0sImNvbnZlcnQiOiJ3ZWJwIiwic2F2ZXIiOnsic3Vic2FtcGxlX21vZGUiOiJvbiIsInN0cmlwIjpmYWxzZSwiaW50ZXJsYWNlIjp0cnVlLCJxdWFsaXR5Ijo1MH19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--4288720e597eeb129da100809b95192d1d38cc9d/orig_6c1cf49db014a670f44a.jpg', 15),
+            ('Masala Dosa', 'Crispy dosa with spiced potato filling', 150.00, 4.6, 'https://www.daringgourmet.com/wp-content/uploads/2023/06/Dosa-Recipe-3.jpg', 30),
+            ('Rajma Chawal', 'Kidney beans curry with rice', 180.00, 4.3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaqUfUEXLZzzTj0NLoufre3Mfr3iHRPzw-h-w2i7E2iSHXfypDqkUf_fH5N4Wh-9zJ7X4&usqp=CAU', 25),
+            ('Chole Bhature', 'Spicy chickpeas with fried bread', 200.00, 4.7, 'https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fill,g_center,w_730,h_913/k%2FPhoto%2FRecipe%20Ramp%20Up%2F2022-03-Chole%2Fchole-2', 18),
+            ('Pav Bhaji', 'Spicy mashed vegetables with bread rolls', 170.00, 4.5, 'https://images.lifestyleasia.com/wp-content/uploads/sites/7/2022/02/01171428/YFL-Pav-Bhaji-3.jpg', 22),
+            ('Butter Chicken', 'Creamy chicken curry with spices', 320.00, 4.9, 'https://tandooribitesie.com/wp-content/uploads/2024/09/Butter-Chicken.webp', 12),
+            ('Dal Makhani', 'Slow-cooked black lentils in butter', 220.00, 4.4, 'https://sinfullyspicy.com/wp-content/uploads/2015/03/1200-by-1200-images-1.jpg', 20),
+            ('Hyderabadi Dum Biryani', 'Fragrant rice with marinated meat', 350.00, 4.9, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoIycguxFgTpIN3L00tYQhJ2WkypXj5w_QkQ&s', 14),
+            ('Veg Thali', 'Assorted Indian vegetarian meal', 280.00, 4.6, 'https://static.vecteezy.com/system/resources/thumbnails/033/688/672/small_2x/photos-of-indian-thali-in-indoor-studio-ai-generated-photo.jpg', 19),
+            ('Aloo Paratha', 'Stuffed flatbread with spiced potatoes', 120.00, 4.5, 'https://sandhyahariharan.co.uk/wp-content/uploads/2009/10/aloo-methi-paratha-1.jpg', 25),
+            ('Tandoori Chicken', 'Char-grilled marinated chicken', 340.00, 4.7, 'https://maharajaroyaldining.com/wp-content/uploads/2024/05/Tandoori-Roti-4.webp', 10),
+            ('Gulab Jamun', 'Soft milk dumplings in sugar syrup', 90.00, 4.9, 'https://www.chefadora.com/_next/image?url=https%3A%2F%2Fchefadora.b-cdn.net%2F003f0f0351967a7cb6212a8d9bfaf889_f956154e73.jpg&w=3840&q=75', 30),
+            ('Samosa', 'Crispy pastry filled with spiced potatoes', 50.00, 4.6, 'https://onestophalal.com/cdn/shop/articles/vegetable_samosa-1697399047300_1200x.jpg?v=1697399081', 40),
+            ('Rasgulla', 'Spongy dessert soaked in syrup', 100.00, 4.8, 'https://www.india.com/wp-content/uploads/2017/11/rosogulla-1.jpg', 35),
+            ('Fish Curry', 'Spiced fish cooked in a tangy sauce', 330.00, 4.7, 'https://5.imimg.com/data5/SELLER/Default/2024/9/450200199/YQ/YC/AI/230584086/fish-curry-half-500x500.jpg', 12),
+            ('Mango Lassi', 'Refreshing mango yogurt drink', 130.00, 4.8, 'https://www.kenwoodworld.com/en/mediastream/b04110b9d2ba874a523e/539x330', 25),
+            ('Chocolate Cake', 'Rich and moist chocolate cake', 250.00, 4.9, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3yMyBlML-kPsQ2PLDhJ7-F3RwNfhFQE33WA&s', 15),
+            ('Pizza Margherita', 'Classic cheese and tomato pizza', 400.00, 4.8, 'https://d4t7t8y8xqo0t.cloudfront.net/resized/750X436/eazytrendz%2F2973%2Ftrend20201029040040.jpg', 12),
+            ('Burger', 'Grilled burger with crispy fries', 230.00, 4.7, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL7AkZSIRpk8Y2lBpk2Xem9c2rUxcjmTNu-iViHVgnQ3AlWqiNpSYVTynCWSAgJKch-_Q&usqp=CAU', 20),
+            ('Pasta Alfredo', 'Creamy white sauce pasta', 290.00, 4.5, 'https://static.vecteezy.com/system/resources/previews/030/547/227/large_2x/ai-generated-delicious-italian-pasta-food-photo.jpg', 18),
+            ('Caesar Salad', 'Fresh greens with Caesar dressing', 180.00, 4.3, 'https://www.eatingwell.com/thmb/Qcd3ZdtD608IfSDyax6AFvZrj-0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Eat-the-Rainbow-Chopped-Salad-with-Basil-Mozzarella-4f304ec0564944f98016b36765124667.jpg', 25),
+            ('Momos', 'Steamed dumplings with spicy sauce', 120.00, 4.6, 'https://www.cookclickndevour.com/wp-content/uploads/2016/11/whole-wheat-momos-recipe-2.jpg', 28),
+            ('Falooda', 'Indian dessert with ice cream & vermicelli', 160.00, 4.8, 'https://www.mygingergarlickitchen.com/wp-content/rich-markup-images/4x3/4x3-falooda-recipe.jpg', 22),
         ]
         
         # Insert Data if Not Exists
@@ -170,32 +170,40 @@ def signup():
     
     return render_template('signup.html')
 
+# ✅ Login Page: Authenticate Users
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
+        # Check user credentials from the database
         with sqlite3.connect('food_ordering.db') as conn:
             cur = conn.cursor()
-            cur.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
+            cur.execute('SELECT * FROM users WHERE username = ?', (username,))
             user = cur.fetchone()
 
-            if user:
+            if user and user[2] == password:  # Direct password comparison (no hashing)
+                # Set session variables
                 session['user_id'] = user[0]
                 session['is_admin'] = user[6]
 
                 flash('Login Successful!', 'success')
 
-                # Redirect based on role (admin or user)
-                if user[6] == 1:  # Admin role (assuming 1 means admin)
+                # Redirect based on user role (Admin/User)
+                if user[6] == 1:  # Admin role (1 means admin)
                     return redirect(url_for('admin_dashboard'))
-                else:  # Regular user role
-                    return redirect(url_for('food_details'))
+
+                # Redirect to last viewed food item or home page
+                food_id = session.pop('last_food_id', None)
+                if food_id:
+                    return redirect(url_for('food_detail', food_id=food_id))
+                return redirect(url_for('home'))
             else:
-                flash('Invalid Credentials!', 'danger')
+                flash('Invalid Credentials! Please try again.', 'danger')
 
     return render_template('login.html')
+
 
 @app.route('/add_food', methods=['POST'])
 def add_food():
