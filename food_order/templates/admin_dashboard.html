@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Foodies Kitchen</title>
+    <style>
+        /* Global Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('https://img.freepik.com/premium-photo/modern-kitchen-chef-dashboard_526934-113.jpg') no-repeat center center/cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Dark Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .header .logo {
+            font-size: 2rem;
+            color: #FFA500;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header .nav-links a {
+            margin-left: 30px;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: #FF6347;
+        }
+
+        /* Admin Dashboard Container */
+        .dashboard-container {
+            margin-top: 150px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 1200px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #FFA500;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.9);
+            color: #FFA500;
+        }
+
+        td {
+            border-bottom: 1px solid #555;
+        }
+
+        /* Form Inputs */
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            font-size: 1rem;
+            color: white;
+            background: #FF4500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #FF6347;
+        }
+
+        .add-item {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <a href="{{ url_for('admin_dashboard') }}" class="logo">🍴 Foodies Admin</a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Container -->
+    <div class="dashboard-container">
+        <h2>Manage Food Items</h2>
+
+        <!-- Food Items Table -->
+        <table id="foodTable">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Food Name</th>
+                    <th>Price (₹)</th>
+                    <th>Stock</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in food_items %}
+                <tr id="row-{{ item.id }}">
+                    <td><img src="{{ item.image_url }}" alt="{{ item.name }}" width="50"></td>
+                    <td>{{ item.name }}</td>
+                    <td><input type="number" value="{{ item.price }}" id="price-{{ item.id }}"></td>
+                    <td><input type="number" value="{{ item.stock }}" id="stock-{{ item.id }}"></td>
+                    <td><button class="btn" onclick="updateFood({{ item.id }})">Update</button></td>
+                    <td><button class="btn" onclick="removeFood({{ item.id }})">Remove</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Add New Food Item Form -->
+        <div class="add-item">
+            <h3>Add New Food Item</h3>
+            <form id="addFoodForm">
+                <input type="text" id="name" placeholder="Food Name" required>
+                <input type="number" id="price" placeholder="Price (₹)" required>
+                <input type="number" id="stock" placeholder="Stock" required>
+                <input type="text" id="image_url" placeholder="Image URL" required>
+                <button type="button" class="btn" onclick="addFood()">Add Item</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function addFood() {
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const stock = document.getElementById('stock').value;
+            const imageUrl = document.getElementById('image_url').value;
+
+            fetch('/add_food', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, price, stock, image_url: imageUrl })
+            }).then(response => location.reload());
+        }
+
+        function updateFood(id) {
+            const price = document.getElementById(`price-${id}`).value;
+            const stock = document.getElementById(`stock-${id}`).value;
+
+            fetch(`/update_food/${id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ price, stock })
+            }).then(response => location.reload());
+        }
+    </script>
+
+</body>
+
+</html>

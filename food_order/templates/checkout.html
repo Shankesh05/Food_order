@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Your Cart - Food Ordering System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #000000, #2c3e50);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            background: #4CAF50;
+            transition: background 0.3s;
+        }
+
+        header a:hover {
+            background: #45a049;
+        }
+
+        /* Cart Section */
+        .cart-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .item-info img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin-right: 1rem;
+            border: 2px solid #ffffff;
+        }
+
+        .item-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .item-price {
+            color: #ff6347;
+            font-weight: bold;
+        }
+
+        /* Quantity Controls */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #45a049;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            background: #ffffff;
+            color: #000;
+            border-radius: 5px;
+        }
+
+        /* Remove Button */
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            text-align: right;
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* Checkout Button */
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #45a049;
+        }
+
+        /* Empty Cart Message */
+        .empty-cart {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Your Cart</h1>
+        <a href="{{ url_for('home') }}">← Back to Home</a>
+    </header>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+
+        {% if cart_items %}
+            {% for item in cart_items %}
+            <div class="cart-item" data-price="{{ item.price }}">
+                <div class="item-info">
+                    <img src="{{ item.image_url }}" alt="{{ item.food_name }}">
+                    <div>
+                        <div class="item-name">{{ item.food_name }}</div>
+                        <div class="item-price">₹{{ item.price }}</div>
+                    </div>
+                </div>
+
+                <!-- Quantity Control -->
+                <div class="quantity-control">
+                    <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                    <input type="text" class="quantity-input" value="{{ item.quantity }}" readonly>
+                    <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                </div>
+
+                <form action="{{ url_for('remove_from_cart', food_id=item.id) }}" method="post">
+                    <button type="submit" class="remove-btn">Remove</button>
+                </form>
+            </div>
+            {% endfor %}
+
+            <!-- Cart Summary -->
+            <div class="cart-summary" id="cart-total">
+                Total: ₹{{ total }}
+            </div>
+
+            <!-- Checkout Button -->
+            <form action="{{ url_for('checkout') }}" method="post">
+                <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+            </form>
+
+        {% else %}
+            <p class="empty-cart">🛒 Your cart is empty!</p>
+        {% endif %}
+
+    </div>
+
+    <!-- JavaScript to Handle Quantity Update -->
+    <script>
+        function updateQuantity(button, change) {
+            const input = button.parentElement.querySelector('.quantity-input');
+            let quantity = parseInt(input.value) + change;
+            if (quantity < 1) quantity = 1; 
+            input.value = quantity;
+
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const price = parseFloat(item.dataset.price);
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                total += price * quantity;
+            });
+            document.getElementById('cart-total').innerText = `Total: ₹${total}`;
+        }
+    </script>
+
+</body>
+
+</html>

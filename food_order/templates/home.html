@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodies Kitchen - Home</title>
+    <style>
+        /* Global Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('https://img.freepik.com/premium-photo/hightech-digital-dashboard-restaurant-kitchen-showcasing-realtime-energy-use-savings-efficient-management_416256-113531.jpg') no-repeat center center/cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        /* Header Styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin: 0;
+            color: #FFA500;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            color: #FF6347;
+        }
+
+        .nav-links a:hover {
+            color: #FF6347;
+        }
+
+        /* Food List Grid */
+        .food-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Food Item Card */
+        .food-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .food-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Food Image */
+        .food-item img {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            max-height: 200px;
+        }
+
+        /* Food Details */
+        .food-item h3 {
+            margin: 15px 0 10px;
+            font-size: 1.8rem;
+        }
+
+        .food-item p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        /* Order Button */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #FF4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.3s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #FF6347;
+        }
+
+        /* Disabled Button */
+        .btn.disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+        /* Footer Styling */
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark Transparent Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>🍔 Foodies Kitchen</h1>
+        <nav class="nav-links">
+            <a href="{{ url_for('home') }}" class="active">Home</a>
+            <a href="{{ url_for('home') }}">Products</a>
+            {% if session['user_id'] %}
+                <a href="{{ url_for('cart') }}">Cart 🛒</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div>
+          {% for category, message in messages %}
+            <p style="color: lime;">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Food Items Section -->
+    <div class="container">
+        <h2>Available Food Items</h2>
+
+        <div class="food-list">
+            {% for food in foods %}
+                <div class="food-item">
+                    <img src="{{ food[5] }}" alt="{{ food[1] }}">
+                    <h3>{{ food[1] }}</h3>
+                    <p>{{ food[2] }}</p>
+                    <p>Price: ₹{{ food[3] }}</p>
+                    <p>Rating: ⭐ {{ food[4] }}</p>
+
+                    {% if food[6] > 0 %}
+                        <p>Status: ✅ In Stock ({{ food[6] }})</p>
+                        <!-- Add to Cart Form with Redirect to Cart -->
+                        <form action="{{ url_for('add_to_cart', food_id=food[0]) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn" onclick="redirectToCart()">Add to Cart</button>
+                        </form>
+                        <a href="{{ url_for('food_detail', food_id=food[0]) }}" class="btn">View Details</a>
+                    {% else %}
+                        <p>Status: ❌ Out of Stock</p>
+                        <a class="btn disabled">Out of Stock</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 Foodies Kitchen | All Rights Reserved</p>
+    </div>
+
+    <!-- JavaScript for Cart Redirect -->
+    <script>
+        function redirectToCart() {
+            setTimeout(() => {
+                window.location.href = "{{ url_for('cart') }}";
+            }, 500);
+        }
+    </script>
+
+</body>
+
+</html>

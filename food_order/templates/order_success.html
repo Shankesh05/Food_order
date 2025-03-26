@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Order Success - Food Ordering System</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .success-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .order-details {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .home-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .home-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="success-container">
+        <h1>🎉 Order Placed Successfully!</h1>
+
+        <div class="order-details">
+            <p><strong>📍 Delivery Address:</strong> {{ address }}</p>
+            <p><strong>📞 Contact Number:</strong> {{ phone }}</p>
+            <p><strong>💳 Payment Mode:</strong> {{ payment_mode }}</p>
+        </div>
+
+        <p>Thank you for ordering with us! Your delicious food is on the way. 🚚</p>
+
+        <a href="{{ url_for('home') }}" class="home-btn">← Back to Home</a>
+    </div>
+
+</body>
+
+</html>

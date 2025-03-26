@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodies Kitchen - Cart</title>
+    <style>
+        /* Global Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('https://img.freepik.com/premium-photo/hightech-digital-dashboard-restaurant-kitchen-showcasing-realtime-energy-use-savings-efficient-management_416256-113531.jpg') no-repeat center center/cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Dark Transparent Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Dark Transparent Overlay */
+            z-index: -1;
+        }
+
+        /* Header Styling */
+        .header {
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .header .logo {
+            font-size: 2rem;
+            color: #FFA500; /* Orange Logo */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header .nav-links a {
+            margin-left: 30px;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: #FF6347; /* Light Orange Hover */
+        }
+
+        /* Cart Container */
+        .cart-container {
+            margin-top: 150px; /* Space for fixed header */
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart-container h2 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #FFA500; /* Orange Title */
+            text-align: center;
+        }
+
+        /* Cart Items */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .cart-item-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .cart-item-price {
+            font-size: 1.2rem;
+            color: #FFA500;
+        }
+
+        .cart-item input {
+            width: 60px;
+            padding: 5px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Total Price */
+        .cart-total {
+            text-align: right;
+            font-size: 1.8rem;
+            margin-top: 30px;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            color: white;
+            background: #FF4500; /* Orange-Red */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #FF6347; /* Light Orange-Red */
+        }
+
+        /* Delivery Form */
+        .delivery-form {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .delivery-form label {
+            font-size: 1.2rem;
+        }
+
+        .delivery-form input,
+        .delivery-form select {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Empty Cart Message */
+        .empty-cart {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 50px;
+            color: #FF6347;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark Transparent Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <a href="{{ url_for('home') }}" class="logo">🍔 Foodies Kitchen</a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('products') }}">Products</a>
+            <a href="{{ url_for('cart') }}">Cart 🛒</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <img src="{{ item.image_url }}" alt="{{ item.product_name }}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">{{ item.product_name }}</div>
+                        <div class="cart-item-price">₹{{ item.price }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Total Amount -->
+            <div class="cart-total">Total: ₹{{ total_price }}</div>
+
+            <!-- Delivery Form -->
+            <form action="{{ url_for('checkout') }}" method="post" class="delivery-form">
+                <label for="address">📍 Delivery Address:</label>
+                <input type="text" id="address" name="address" required>
+
+                <label for="phone">📞 Contact Number:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="payment_mode">💳 Payment Mode:</label>
+                <select id="payment_mode" name="payment_mode" required>
+                    <option value="COD">Cash on Delivery</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Credit/Debit Card</option>
+                </select>
+
+                <button type="submit" class="btn">Proceed to Checkout</button>
+            </form>
+
+        {% else %}
+            <div class="empty-cart">Your cart is empty.</div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

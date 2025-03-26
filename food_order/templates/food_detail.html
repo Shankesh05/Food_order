@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Food Detail - Foodies Kitchen</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #2c3e50);
+            color: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            padding: 0 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .food-detail img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+        }
+
+        h2 {
+            color: #FFA500;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input,
+        textarea ,select{
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Foodies Kitchen</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('cart') }}">Cart 🛒</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </nav>
+    </div>
+
+    <!-- Food Details Section -->
+    <div class="container">
+        <div class="food-detail">
+            <img src="{{ food[5] }}" alt="{{ food[1] }}">
+            <h2>{{ food[1] }}</h2>
+            <p>{{ food[2] }}</p>
+            <p><strong>Price:</strong> ₹{{ food[3] }}</p>
+            <p><strong>Rating:</strong> ⭐ {{ food[4] }}</p>
+
+            {% if 'user_id' in session %}
+            <!-- Order Form -->
+        <form id="orderForm" method="POST">
+            <label for="address">Delivery Address:</label>
+            <textarea name="address" required></textarea>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" name="phone" required>
+
+            <!-- Payment Method -->
+            <label for="payment">Select Payment Method:</label>
+            <select name="payment" required>
+                <option value="COD">Cash on Delivery</option>
+                <option value="UPI">UPI Payment</option>
+                <option value="Card">Card Payment</option>
+            </select>
+
+            <button type="button" class="btn" onclick="confirmOrder()">Place Order</button>
+        </form>
+
+        <!-- Delivery Time Message -->
+        <div id="deliveryMessage" class="hidden">
+            <h3>✅ Order Placed Successfully!</h3>
+            <p>Estimated Delivery Time: <span id="deliveryTime"></span> minutes.</p>
+            <a href="/" class="btn">Back to Home</a>
+        </div>
+
+        {% else %}
+        <a href="{{ url_for('login') }}" class="btn">Login to Order</a>
+        {% endif %}
+        </div>
+    </div>
+
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Foodies Kitchen. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        function confirmOrder() {
+            if (confirm("Are you sure you want to place the order?")) {
+                document.getElementById('orderForm').submit();
+            }
+        }
+
+        // Set Random Delivery Time (30-60 minutes)
+        const deliveryTime = Math.floor(Math.random() * 30) + 30;
+        document.getElementById('deliveryTime').innerText = deliveryTime;
+    </script>
+
+</body>
+
+</html>
